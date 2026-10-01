@@ -40,7 +40,7 @@ function Cadastro() {
           <button
             type="button"
             onClick={() => { setTipo('empresa'); setDocumento(''); }}
-            className={`flex-1 py-2.5 text-sm transition
+            className={`flex-1 py-2.5 text-sm transition cursor-pointer
                 ${
                     tipo === 'empresa'
                     ? 'bg-blue-50 text-[#185FA5] font-semibold'
@@ -52,7 +52,8 @@ function Cadastro() {
           <button
             type="button"
             onClick={() => { setTipo('pessoa'); setDocumento(''); }}
-            className={`flex-1 py-2.5 text-sm transition ${
+            className={`flex-1 py-2.5 text-sm transitio cursor-pointer 
+              ${
               tipo === 'pessoa'
                 ? 'bg-blue-50 text-[#185FA5] font-semibold'
                 : 'bg-white text-gray-500'
