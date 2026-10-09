@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import axios from 'axios';
+import { API_URL } from '../config.js';
 
 
 function Cadastro() {
@@ -9,18 +11,26 @@ function Cadastro() {
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  async function handleSubmit(e) {
+  e.preventDefault();
+  setErro('');
 
-    if (!nome || !email || !documento || !senha) {
-      setErro('Preencha todos os campos.');
-      return;
-    }
+  // o back espera "cnpj" ou "cpf", não "documento"
+  const payload = {
+    tipo,
+    nome,
+    email,
+    senha,
+    ...(tipo === 'empresa' ? { cnpj: documento } : { cpf: documento }),
+  };
 
-    setErro('');
-    // A chamada pro back-end (criar a conta de verdade) entra aqui depois.
-    console.log('Cadastro enviado:', { tipo, nome, email, documento, senha });
+  try {
+    await axios.post(`${API_URL}/auth/register`, payload);
+    // aqui entra a ida pra tela de login
+  } catch (err) {
+    setErro(err.response?.data?.erro || 'Não foi possível conectar ao servidor.');
   }
+}
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-6">
@@ -129,14 +139,14 @@ function Cadastro() {
 
           <button
             type="submit"
-            className="w-full py-2.5 text-sm font-semibold text-white bg-[#185FA5] rounded-lg hover:opacity-90 transition mt-2"
+            className="cursor-pointer w-full py-2.5 text-sm font-semibold text-white bg-[#185FA5] rounded-lg hover:opacity-90 transition mt-2"
           >
             Criar conta
           </button>
         </form>
 
         <p className="text-center text-sm text-gray-500 mt-5">
-          Já tem uma conta? <span className="text-[#185FA5] font-semibold">Entrar</span>
+          Já tem uma conta? <span className="cursor-pointer text-[#185FA5] font-semibold">Entrar</span>
         </p>
       </div>
     </div>

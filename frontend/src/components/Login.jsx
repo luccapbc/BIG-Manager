@@ -1,23 +1,26 @@
 import { useState } from 'react';
+import axios from 'axios';
+import { API_URL } from '../config.js';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
 
-  function handleSubmit(e) {
-    e.preventDefault();
+ async function handleSubmit(e) {
+  e.preventDefault();
+  setErro('');
 
-    if (!email || !senha) {
-      setErro('Preencha email e senha.');
-      return;
-    }
+  try {
+    const { data } = await axios.post(`${API_URL}/auth/login`, { email, senha });
 
-    setErro('');
-    // A lógica de entrar de verdade (chamar o back-end, trocar de tela, etc)
-    // entra aqui depois. Por enquanto, a tela só valida os campos.
-    console.log('Login enviado:', { email, senha });
+    localStorage.setItem('bigmanager_token', data.token);
+    localStorage.setItem('bigmanager_usuario', JSON.stringify(data.usuario));
+    // aqui entra a ida pro dashboard
+  } catch (err) {
+    setErro(err.response?.data?.erro || 'Não foi possível conectar ao servidor.');
   }
+}
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-6">
@@ -68,14 +71,14 @@ function Login() {
 
           <button
             type="submit"
-            className="w-full py-2.5 text-sm font-semibold text-white bg-[#185FA5] rounded-lg hover:opacity-90 transition mt-2"
+            className="cursor-pointer w-full py-2.5 text-sm font-semibold text-white bg-[#185FA5] rounded-lg hover:opacity-90 transition mt-2"
           >
             Entrar
           </button>
         </form>
 
         <p className="text-center text-sm text-gray-500 mt-5">
-          Ainda não tem conta? <span className="text-[#185FA5] font-semibold">Criar conta</span>
+          Ainda não tem conta? <span className="cursor-pointer text-[#185FA5] font-semibold">Criar conta</span>
         </p>
       </div>
     </div>
