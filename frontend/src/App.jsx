@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Login from './components/Login'
 import Cadastro from './components/Cadastro'
+import CadastroProduto from './components/CadProdutos';
 
 
 function App() {
@@ -8,8 +9,11 @@ function App() {
 
   return (
     <>
-    <Login />
-    <Cadastro />
+    {/*<Login />
+    <Cadastro />*/}
+    <CadastroProduto />
+
+
     </>
   )
 }
