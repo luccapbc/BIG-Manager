@@ -3,7 +3,7 @@ import axios from 'axios';
 import { API_URL } from '../config.js';
 
 
-function Cadastro() {
+function Cadastro({onIrParaLogin, onCadastroSucesso}) {
   const [tipo, setTipo] = useState('empresa');
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -26,6 +26,7 @@ function Cadastro() {
 
   try {
     await axios.post(`${API_URL}/auth/register`, payload);
+    onCadastroSucesso();
     // aqui entra a ida pra tela de login
   } catch (err) {
     setErro(err.response?.data?.erro || 'Não foi possível conectar ao servidor.');
@@ -146,7 +147,13 @@ function Cadastro() {
         </form>
 
         <p className="text-center text-sm text-gray-500 mt-5">
-          Já tem uma conta? <span className="cursor-pointer text-[#185FA5] font-semibold">Entrar</span>
+          Já tem uma conta?
+          <button
+            type="button"
+            onClick={onIrParaLogin}
+            className="text-[#185FA5] font-semibold cursor-pointer"
+          > Entrar
+          </button>
         </p>
       </div>
     </div>

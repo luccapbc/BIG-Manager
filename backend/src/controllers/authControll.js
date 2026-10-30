@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 // import jwt from 'jsonwebtoken';
 import { cadastrarUsuario, verificarLogin } from '../models/authModel.js'; // exportar as funções
 import { cpfEhValido, cnpjEhValido } from '../utils/validadores.js';
-import { gerarToken } from '../middleware/token.js';
+import { gerarToken } from '../middleWares/token.js';
 
 const SALT_ROUNDS = 10 // o quao seguro a Hash vai ser
 

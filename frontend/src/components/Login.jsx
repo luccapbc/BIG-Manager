@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '../config.js';
 
-function Login() {
+function Login({onIrParaCadastro, onLoginSucesso}) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
@@ -16,7 +16,8 @@ function Login() {
 
     localStorage.setItem('bigmanager_token', data.token);
     localStorage.setItem('bigmanager_usuario', JSON.stringify(data.usuario));
-    // aqui entra a ida pro dashboard
+    onLoginSucesso();
+  
   } catch (err) {
     setErro(err.response?.data?.erro || 'Não foi possível conectar ao servidor.');
   }
@@ -24,7 +25,7 @@ function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-6">
-      <div className=" w-full max-w-lg bg-white border border-gray-200 rounded-full p-20 shadow-[0_0_15px_5px] shadow-gray-300/80 trasnsition duration-300 hover:shadow-[0_0_15px_5px] hover:shadow-[#185FA5]/45">
+      <div className=" w-full max-w-lg bg-white border border-gray-200 rounded-full p-20 shadow-[0_0_15px_5px] shadow-gray-300/80 transition duration-300  hover:shadow-[0_0_15px_5px] hover:shadow-[#185FA5]/45">
 
         <h1 className="text-xl font-medium mb-1 text-center">
           <span className="text-[#185FA5]">BigManager</span>
@@ -78,7 +79,13 @@ function Login() {
         </form>
 
         <p className="text-center text-sm text-gray-500 mt-5">
-          Ainda não tem conta? <span className="cursor-pointer text-[#185FA5] font-semibold">Criar conta</span>
+          Ainda não tem conta? 
+        <button
+          type="button"
+          onClick={onIrParaCadastro}
+          className="text-[#185FA5] font-semibold cursor-pointer"
+          > Criar conta
+        </button>
         </p>
       </div>
     </div>
